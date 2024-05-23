@@ -1,0 +1,59 @@
+.container{
+    margin-top: 20px;
+}
+.card {
+    display: flex;
+    width: 50%;
+    max-width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+.box-dni{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.box{
+    border: 2px solid #4e484823;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.flex{
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.flex-column {
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+
+.error-message {
+    color: red;
+    font-size: 12px;
+}
+
+.ui-dropdown.ui-dropdown-clearable .ui-dropdown-label {
+    text-overflow: ellipsis !important;
+}
+
+.ui-dropdown .ui-dropdown-label {
+    text-overflow: ellipsis !important;
+}
+
+.formato{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

@@ -1,0 +1,90 @@
+<p-toast></p-toast>
+<div class="container">
+    <div class="card justify-content-center">
+        <p-card header="Registrar un nuevo usuario">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="flex flex-column">
+                    <label for="dni">DNI</label>
+                    <input pInputText id="dni" formControlName="dni" required maxlength="8" minlength="8" />
+                    @if (form.get('dni')?.hasError('required') && form.get('dni')?.touched) {
+                    <small class="error-message">Ingrese su DNI.</small>
+                    }
+                    @if ((form.get('dni')?.hasError('maxlength') || form.get('dni')?.hasError('minlength')) &&
+                    form.get('dni')?.touched) {
+                    <small class="error-message">El DNI debe tener 8 numeros.</small>
+                    }
+                </div>
+                <p-button (click)="buscarUsuario()" [disabled]="form.get('dni')?.invalid" label="Buscar"></p-button>
+
+                <div class="box">
+                    <div class="flex flex-column">
+                        <label>Nombre</label>
+                        <input formControlName="nombre" pInputText [readonly]="readonly" />
+                        @if (form.get('nombre')?.hasError('required') && form.get('nombre')?.touched && !readonly) {
+                        <small class="error-message">Ingrese el nombre.</small>
+                        }
+                    </div>
+                    <div class="flex flex-column">
+                        <label>Apellido Paterno</label>
+                        <input formControlName="apellidoPaterno" pInputText [readonly]="readonly" />
+                        @if (form.get('apellidoPaterno')?.hasError('required') && form.get('apellidoPaterno')?.touched&&
+                        !readonly) {
+                        <small class="error-message">Ingrese el apellido paterno.</small>
+                        }
+                    </div>
+                    <div class="flex flex-column">
+                        <label>Apellido Materno</label>
+                        <input formControlName="apellidoMaterno" pInputText [readonly]="readonly" />
+                        @if (form.get('apellidoMaterno')?.hasError('required') && form.get('apellidoMaterno')?.touched&&
+                        !readonly) {
+                        <small class="error-message">Ingrese el apellido materno.</small>
+                        }
+                    </div>
+
+                    <div class="flex flex-column">
+                        <label>Cargo</label>
+                        <input formControlName="cargo" pInputText [readonly]="readonly" />
+                        @if (form.get('cargo')?.hasError('required') && form.get('cargo')?.touched&& !readonly) {
+                        <small class="error-message">Ingrese el cargo.</small>
+                        }
+                    </div>
+                </div>
+
+                <div class="flex flex-column">
+                    <label for="usuario">Usuario</label>
+                    <input pInputText id="usuario" formControlName="usuario" required maxlength="20" minlength="6" />
+                    @if (form.get('usuario')?.hasError('required') && form.get('usuario')?.touched) {
+                    <small class="error-message">Ingrese su usuario.</small>
+                    }
+                    @if ((form.get('usuario')?.hasError('maxlength') || form.get('usuario')?.hasError('minlength')) &&
+                    form.get('usuario')?.touched) {
+                    <small class="error-message">El usuario debe tener entre 6 a 20 caracteres.</small>
+                    }
+                </div>
+                <div class="flex flex-column">
+                    <label for="contrasenia">Contraseña</label>
+                    <input pInputText id="contrasenia" formControlName="contrasenia" required maxlength="20"
+                        minlength="6" type="password" />
+                    @if (form.get('contrasenia')?.hasError('required')&& form.get('contrasenia')?.touched) {
+                    <small class="error-message">Ingrese su contraseña.</small>
+                    }
+                    @if ((form.get('contrasenia')?.hasError('maxlength') ||
+                    form.get('contrasenia')?.hasError('minlength'))
+                    &&
+                    form.get('contrasenia')?.touched) {
+                    <small class="error-message">El contraseña debe tener entre 6 a 20 caracteres.</small>
+                    }
+                </div>
+                <div class="flex flex-column">
+                    <label for="rol">Rol: </label>
+                    <p-dropdown formControlName="rol" [options]="roles" [style]="{'width':'100%'}"
+                        placeholder="Seleccione el rol"></p-dropdown>
+                    @if (form.get('rol')?.hasError('required')&& form.get('rol')?.touched) {
+                    <small class="error-message">Ingrese el rol.</small>
+                    }
+                </div>
+                <p-button [disabled]="form.invalid" type="submit" label="Guardar"></p-button>
+            </form>
+        </p-card>
+    </div>
+</div>

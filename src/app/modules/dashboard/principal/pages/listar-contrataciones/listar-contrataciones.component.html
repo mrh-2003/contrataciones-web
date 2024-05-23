@@ -1,0 +1,168 @@
+<p-toast></p-toast>
+<div class="container">
+    <div class="card">
+        <p-table #dt [value]="contrataciones" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+            [loading]="loading" [paginator]="true"
+            currentPageReportTemplate="Mostrando del {first} al {last} de un total de {totalRecords} registros."
+            [globalFilterFields]="['descripcion','sede' , 'tipoServicio', 'nombre', 'estado']">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <button routerLink="nuevo" pButton label="Nuevo" class="p-button-outlined"
+                        icon="pi pi-plus"></button>
+
+                    <div>
+                        <button pButton label="Limpiar" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt, textInput)"></button>
+                        <span class="space"></span>
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText #textInput type="text"
+                                (input)=" dt.filterGlobal(textInput.value, 'contains' )" placeholder="Filtrar" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width:5rem">
+                        <div class="flex align-items-center">
+                            Codigo
+                        </div>
+                    </th>
+                    <th style="min-width:10rem">
+                        <div class="flex align-items-center">
+                            Descripción
+                            <p-columnFilter matchMode="contains" type="text" field="descripcion" display="menu"
+                                [showMatchModes]="false" [showOperator]="false"
+                                [showAddButton]="false"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width:10rem">
+                        <div class="flex align-items-center">
+                            Tipo de servicio
+                            <p-columnFilter field="tipoServicio" matchMode="equals" display="menu"
+                                [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-dropdown [ngModel]="value" [options]="tipoServicios"
+                                        (onChange)="filter($event.value)" placeholder="Ninguno">
+                                    </p-dropdown>
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width:10rem">
+                        <div class="flex align-items-center">
+                            Sede
+                            <p-columnFilter matchMode="contains" type="text" field="sede" display="menu"
+                                [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"
+                                buttonText="Aplicar" clearButtonText="Limpiar">
+                                ></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width:10rem">
+                        <div class="flex align-items-center">
+                            Fecha de publicación
+                        </div>
+                    </th>
+                    <th style="min-width:10rem">
+                        <div class="flex align-items-center">
+                            Fecha de vencimiento
+                        </div>
+                    </th>
+                    <th style="min-width:10rem">
+                        <div class="flex align-items-center">
+                            Dato de contacto
+                            <p-columnFilter matchMode="contains" type="text" field="nombre" display="menu"
+                                [showMatchModes]="false" [showOperator]="false"
+                                [showAddButton]="false"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width:10rem">
+                        <div class="flex align-items-center">
+                            Estado
+                            <p-columnFilter field="estado" matchMode="equals" display="menu" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false">
+                                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                    <p-dropdown [ngModel]="value" [options]="estados" (onChange)="filter($event.value)"
+                                        placeholder="Ninguno">
+                                    </p-dropdown>
+                                </ng-template>
+                            </p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width:5rem">
+                        <div class="flex align-items-center">
+                            Acciones
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-contratacion let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{rowIndex + 1}}</td>
+                    <td>
+                        {{ contratacion.descripcion }}
+                    </td>
+                    <td>
+                        {{ contratacion.tipoServicio }}
+                    </td>
+                    <td>
+                        {{ contratacion.sede }}
+                    </td>
+                    <td>
+                        {{ contratacion.fechaPublicacion | date: 'dd/MM/yyyy' }}
+                    </td>
+                    <td>
+                        {{ contratacion.fechaVencimiento | date: 'dd/MM/yyyy' }}
+                    </td>
+                    <td>
+                        {{ contratacion.nombre }}
+                    </td>
+                    <td>
+                        <p-tag [value]="contratacion.estado" [severity]="getSeverity(contratacion.estado)"></p-tag>
+                    </td>
+                    <td class="align-buttons">
+                        <button (click)="verPdf(contratacion.url)" pButton pRipple icon="pi pi-eye"
+                            class="p-button-rounded p-button-info"></button>
+                        @if (noVencido(contratacion)) {
+                        <button (click)="openDialog(contratacion)" pButton pRipple icon="pi pi-file-edit"
+                            class="p-button-rounded p-button-warning"></button>
+                        }
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">No hay contrataciones.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>
+
+<p-dialog header="Vista previa" [modal]="true" [(visible)]="isPDF" [style]="{width: '90vw'}" [maximizable]="true">
+    @if (this.isPDF) {
+    <ngx-extended-pdf-viewer [textLayer]="true" [height]="'100vh'" [src]="pdfUrl">
+    </ngx-extended-pdf-viewer>
+    }
+
+</p-dialog>
+
+<p-dialog header="Editar fechas" [modal]="true" [(visible)]="visible">
+    <div class="centrar">
+        <div class="calendar">
+            <div class="input-div">
+                <label for="fechaPubli"> Fecha de Publicación </label>
+                <input [min]="today" [(ngModel)]="fechaPubli" name="fechaPubli" class="date-input" type="date">
+
+            </div>
+            <div class="input-div">
+                <label for="fechaVenc"> Fecha de Vencimiento </label>
+                <input [min]="fechaPubli" [(ngModel)]="fechaVenc" name="fechaVenc" class="date-input" type="date">
+            </div>
+        </div>
+        <button pButton label="Actualizar" class="p-button-outlined" icon="pi pi-pencil"
+            (click)="updateContratacion()"></button>
+    </div>
+</p-dialog>

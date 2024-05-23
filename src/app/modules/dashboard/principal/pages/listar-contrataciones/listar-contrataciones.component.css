@@ -1,0 +1,66 @@
+.container {
+    margin: 10px;
+    border-radius: 30px;
+    border: 2px solid #e5e7eb;
+    overflow: hidden;
+}
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.space {
+    margin-right: 20px;
+
+}
+
+.align-buttons {
+    display: flex;
+}
+
+.align-buttons button {
+    display: flex;
+    margin-left: 5px;
+}
+
+/* .centrar{
+    text-align: center;
+}
+
+.centrar .calendar{
+    text-align: left;
+    margin-bottom: 10px;
+}
+ */
+
+.centrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.centrar .calendar {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.input-div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.input-div input {
+    margin-left: 10px;
+}
+
+/*Diseñar date*/
+.date-input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
