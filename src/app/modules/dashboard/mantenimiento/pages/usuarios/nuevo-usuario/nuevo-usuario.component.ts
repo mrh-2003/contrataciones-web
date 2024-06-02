@@ -33,7 +33,7 @@ export class NuevoUsuarioComponent {
   ) { }
 
   ngOnInit() {
-    this.roles = ['ADMINISTRADOR', 'USUARIO'];
+    this.roles = ['ADMINISTRADOR', 'PERSONAL LOGISTICO'];
     this.form = this.formBuilder.group({
       dni: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
       usuario: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],

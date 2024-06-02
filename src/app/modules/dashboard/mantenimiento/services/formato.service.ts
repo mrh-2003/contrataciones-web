@@ -12,57 +12,6 @@ export class FormatoService {
     private http: HttpClient
   ) { }
 
-  getfFormatos() {
-    return [
-      {
-        codigo: 1,
-        descripcion: 'Formato de prueba',
-        url: 'http://localhost:3000/formatos/1',
-        nombre: 'Formato 1',
-        fechaCreacion: '2021-09-01',
-        fechaEdicion: '2021-09-01',
-        estado: 'Activo'
-      },
-      {
-        codigo: 2,
-        descripcion: 'Formato de prueba 2',
-        url: 'http://localhost:3000/formatos/2',
-        nombre: 'Formato 2',
-        fechaCreacion: '2021-09-01',
-        fechaEdicion: '2021-09-01',
-        estado: 'Activo'
-      },
-      {
-        codigo: 3,
-        descripcion: 'Formato de prueba 3',
-        url: 'http://localhost:3000/formatos/3',
-        nombre: 'Formato 3',
-        fechaCreacion: '2021-09-01',
-        fechaEdicion: '2021-09-01',
-        estado: 'Activo'
-      },
-      {
-        codigo: 4,
-        descripcion: 'Formato de prueba 4',
-        url: 'http://localhost:3000/formatos/4',
-        nombre: 'Formato 4',
-        fechaCreacion: '2021-09-01',
-        fechaEdicion: '2021-09-01',
-        estado: 'Activo'
-      },
-      {
-        codigo: 5,
-        descripcion: 'Formato de prueba 5',
-        url: 'http://localhost:3000/formatos/5',
-        nombre: 'Formato 5',
-        fechaCreacion: '2021-09-01',
-        fechaEdicion: '2021-09-01',
-        estado: 'Activo'
-      }
-    ]
-    //return this.http.get<Formato[]>('http://localhost:3000/formatos');
-  }
-
   getFormatos(){
     return this.http.get<Formato[]>(this.path);
   }

@@ -3,7 +3,7 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
+import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MessageService } from 'primeng/api';
@@ -100,7 +100,7 @@ export class NuevaContratacionComponent {
     }
   }
 
-  onUpload(event: FileUploadEvent) {
+  onUpload(event: FileUploadHandlerEvent) {
     const file = event.files[0];
     this.recargar = false;
     if (file && this.form.valid) {

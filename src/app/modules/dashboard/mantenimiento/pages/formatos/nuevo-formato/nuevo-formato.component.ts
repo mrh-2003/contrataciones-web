@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
+import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
@@ -44,8 +44,8 @@ export class NuevoFormatoComponent {
     }
   }
 
-  onSelect(event: FileUploadEvent){
-    this.file= event.files[0];
+  onSelect(event: FileUploadHandlerEvent) {
+    this.file = event.files[0];
     this.mensaje = ` ${this.file.name} - ${this.file.size / 1024} KB`;
   }
 

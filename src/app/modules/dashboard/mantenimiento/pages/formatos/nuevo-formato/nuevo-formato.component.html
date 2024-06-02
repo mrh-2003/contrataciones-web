@@ -7,12 +7,10 @@
                 [autoResize]="true"></textarea>
         </div>
         <div class="flex flex-column ">
-            <p-fileUpload 
-            [auto]="true" chooseLabel="Seleccionar Archivo" mode="basic" name="demo[]"
-                url="https://www.primefaces.org/cdn/api/upload.php"
+            <p-fileUpload [auto]="true" chooseLabel="Seleccionar Archivo" mode="basic" name="demo[]" customUpload="true"
+                (uploadHandler)="onSelect($event)"
                 accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                maxFileSize="10000000" (onUpload)="onSelect($event)">
-            </p-fileUpload>
+                maxFileSize="10000000"></p-fileUpload>
         </div>
         <div class="flex flex-column mensaje">
             <div> <strong>Archivo cargado:</strong> {{mensaje}}</div>

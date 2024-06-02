@@ -121,10 +121,9 @@
                     </div>
                 </div>
                 <p-card header="Subir documento">
-                    <p-fileUpload chooseLabel="Subir" uploadLabel="Guardar" cancelLabel="Cancelar" name="demo[]"
-                        url="https://www.primefaces.org/cdn/api/upload.php"
+                    <p-fileUpload chooseLabel="Subir" uploadLabel="Guardar" cancelLabel="Cancelar" name="demo[]" customUpload="true"
                         accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                        maxFileSize="10000000" (onUpload)="onUpload($event)" (onClear)="salir()">
+                        maxFileSize="10000000" (uploadHandler)="onUpload($event)" (onClear)="salir()">
                         <ng-template class="width" let-file pTemplate="file">
 
                             <div class="width-input">Archivo cargado: {{file.name}} - {{file.size / 1024}} KB</div>
