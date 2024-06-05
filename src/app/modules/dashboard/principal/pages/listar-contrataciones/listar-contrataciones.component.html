@@ -24,12 +24,12 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="min-width:5rem">
+                    <th>
                         <div class="flex align-items-center">
-                            Codigo
+                            N°
                         </div>
                     </th>
-                    <th style="min-width:10rem">
+                    <th>
                         <div class="flex align-items-center">
                             Descripción
                             <p-columnFilter matchMode="contains" type="text" field="descripcion" display="menu"
@@ -37,7 +37,7 @@
                                 [showAddButton]="false"></p-columnFilter>
                         </div>
                     </th>
-                    <th style="min-width:10rem">
+                    <th>
                         <div class="flex align-items-center">
                             Tipo de servicio
                             <p-columnFilter field="tipoServicio" matchMode="equals" display="menu"
@@ -50,7 +50,7 @@
                             </p-columnFilter>
                         </div>
                     </th>
-                    <th style="min-width:10rem">
+                    <th>
                         <div class="flex align-items-center">
                             Sede
                             <p-columnFilter matchMode="contains" type="text" field="sede" display="menu"
@@ -59,25 +59,17 @@
                                 ></p-columnFilter>
                         </div>
                     </th>
-                    <th style="min-width:10rem">
+                    <th>
                         <div class="flex align-items-center">
                             Fecha de publicación
                         </div>
                     </th>
-                    <th style="min-width:10rem">
+                    <th>
                         <div class="flex align-items-center">
                             Fecha de vencimiento
                         </div>
                     </th>
-                    <th style="min-width:10rem">
-                        <div class="flex align-items-center">
-                            Dato de contacto
-                            <p-columnFilter matchMode="contains" type="text" field="nombre" display="menu"
-                                [showMatchModes]="false" [showOperator]="false"
-                                [showAddButton]="false"></p-columnFilter>
-                        </div>
-                    </th>
-                    <th style="min-width:10rem">
+                    <th>
                         <div class="flex align-items-center">
                             Estado
                             <p-columnFilter field="estado" matchMode="equals" display="menu" [showMatchModes]="false"
@@ -90,9 +82,19 @@
                             </p-columnFilter>
                         </div>
                     </th>
-                    <th style="min-width:5rem">
+                    <th>
                         <div class="flex align-items-center">
-                            Acciones
+                            Formato
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex align-items-center">
+                            Anexo
+                        </div>
+                    </th>
+                    <th>
+                        <div class="flex align-items-center">
+                            Acciones Resultado
                         </div>
                     </th>
                 </tr>
@@ -116,17 +118,23 @@
                         {{ contratacion.fechaVencimiento | date: 'dd/MM/yyyy' }}
                     </td>
                     <td>
-                        {{ contratacion.nombre }}
-                    </td>
-                    <td>
                         <p-tag [value]="contratacion.estado" [severity]="getSeverity(contratacion.estado)"></p-tag>
                     </td>
                     <td class="align-buttons">
                         <button (click)="verPdf(contratacion.url)" pButton pRipple icon="pi pi-eye"
                             class="p-button-rounded p-button-info"></button>
+                    </td>
+                    <td class="align-buttons">
+                        <button (click)="verPdf(contratacion.url)" pButton pRipple icon="pi pi-eye"
+                            class="p-button-rounded p-button-info"></button>
+                    </td>
+                    <td class="align-buttons">
                         @if (noVencido(contratacion)) {
                         <button (click)="openDialog(contratacion)" pButton pRipple icon="pi pi-file-edit"
                             class="p-button-rounded p-button-warning"></button>
+                        }@else {
+                        <button (click)="verPdf(contratacion.url)" pButton pRipple icon="pi pi-eye"
+                            class="p-button-rounded p-button-info"></button>
                         }
                     </td>
                 </tr>
@@ -160,6 +168,10 @@
             <div class="input-div">
                 <label for="fechaVenc"> Fecha de Vencimiento </label>
                 <input [min]="fechaPubli" [(ngModel)]="fechaVenc" name="fechaVenc" class="date-input" type="date">
+            </div>
+            <div class="input-div">
+                <label for="descripcion"> Descripción </label>
+                <input [(ngModel)]="descripcion" name="descripcion" class="date-input" type="text">
             </div>
         </div>
         <button pButton label="Actualizar" class="p-button-outlined" icon="pi pi-pencil"

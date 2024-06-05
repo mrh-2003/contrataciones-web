@@ -1,28 +1,29 @@
-.container{
+.container {
     margin-top: 20px;
 }
+
 .card {
     display: flex;
     width: 50%;
-    max-width: 50%;
+    max-width: 500px;
     margin: auto;
     text-align: center;
 }
 
-.box-dni{
+.box-dni {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.box{
+.box {
     border: 2px solid #4e484823;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 10px;
 }
 
-.flex{
+.flex {
     display: flex;
     justify-content: space-between;
     text-align: left;
@@ -51,9 +52,13 @@
     text-overflow: ellipsis !important;
 }
 
-.formato{
+.formato {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.center{
+    text-align: center;
 }

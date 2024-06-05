@@ -35,6 +35,7 @@ export class ListarContratacionesComponent {
   loading: boolean = true;
   fechaPubli = new Date().toISOString().split('T')[0];
   fechaVenc = new Date().toISOString().split('T')[0];
+  descripcion = '';
   contra = new Contratacion();
   today = new Date().toISOString().split('T')[0];
   constructor(private contratacionService: ContratacionService, private messageService: MessageService) { }
@@ -92,6 +93,7 @@ export class ListarContratacionesComponent {
     } else {
       this.contra.fechaPublicacion = this.fechaPubli;
       this.contra.fechaVencimiento = this.fechaVenc;
+      this.contra.descripcion = this.descripcion;
       this.contratacionService.updateContratacion(this.contra).subscribe(() => {
         this.visible = false;
         this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Contratación actualizada correctamente.' });

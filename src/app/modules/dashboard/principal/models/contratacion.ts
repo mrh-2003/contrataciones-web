@@ -1,22 +1,17 @@
 export class Contratacion {
     codigo : number = 0;
+    formato : any;
     descripcion : string = "";
     tipoServicio : string = "";
-    formato : any;
     fechaPublicacion :string = "";
     fechaVencimiento:string = "";
     codigoSenamhi : string = "";
     codigoSede : string = "";
-    codigoAcceso : number = 0;
     sede : string = "";
-    url : string = "";
+    codigoAcceso : number = 0;
+    urlFormato : string = "";
+    urlConvocatoria : string = "";
+    urlResultado : string = "";
     fechaCreacion:string = "";
     estado : string = "";
-    dniRuc : string = "";
-    nombre : string = "";
-    apellidoPaterno : string = "";
-    apellidoMaterno : string = "";
-    direccion : string = "";
-    telefono : string = "";
-    correo : string = "";
 }

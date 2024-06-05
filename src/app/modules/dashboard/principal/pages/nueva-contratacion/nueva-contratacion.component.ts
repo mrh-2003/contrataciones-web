@@ -13,7 +13,6 @@ import { CalendarModule } from 'primeng/calendar';
 import { ContratacionService } from '../../services/contratacion.service';
 import { Formato } from '../../../mantenimiento/models/formato';
 import { FormatoService } from '../../../mantenimiento/services/formato.service';
-import { ProveedorService } from '../../services/proveedor.service';
 import { Contratacion } from '../../models/contratacion';
 import { Router } from '@angular/router';
 import { AccesoService } from '../../../mantenimiento/services/acceso.service';
@@ -34,18 +33,19 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 export class NuevaContratacionComponent {
   tipoServicios: any[] = [];
   formatos: Formato[] = [];
-  readonly: boolean = true;
   form!: FormGroup;
   acceso !: Acceso;
-  recargar = true;
   today = new Date();
+  fileFormato!: File;
+  fileConvocatoria!: File;
+  mensajeFormato!: string;
+  mensajeConvocatoria!: string;
   constructor(
     private router: Router,
     private contratacionService: ContratacionService,
     private formatoService: FormatoService,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private proveedorService: ProveedorService,
     private accesoService: AccesoService
   ) { }
 
@@ -59,37 +59,12 @@ export class NuevaContratacionComponent {
       formato: ['', [Validators.required]],
       fechaPublicacion: ['', [Validators.required]],
       fechaVencimiento: ['', [Validators.required]],
-      dniRuc: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(11)]],
-      nombre: ['', [Validators.required]],
-      apellidoPaterno: ['', [Validators.required]],
-      apellidoMaterno: ['', [Validators.required]],
-      direccion: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
-      correo: ['', [Validators.required, Validators.email]],
     });
 
     this.tipoServicios = [
       'Bien',
       'Servicio'
     ];
-  }
-
-  buscarUsuario() {
-    this.proveedorService.getProveedorByDniRuc(this.form.value.dniRuc).subscribe((usuario) => {
-      if (usuario) {
-        this.form.patchValue({
-          nombre: usuario.nombre,
-          apellidoPaterno: usuario.apellidoPaterno,
-          apellidoMaterno: usuario.apellidoMaterno,
-          direccion: usuario.direccion,
-          telefono: usuario.telefono,
-          correo: usuario.correo
-        });
-      } else {
-        this.readonly = false;
-        this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Proveedor no encontrado, complete los datos.' });
-      }
-    });
   }
 
   descargarFormato() {
@@ -100,19 +75,19 @@ export class NuevaContratacionComponent {
     }
   }
 
-  onUpload(event: FileUploadHandlerEvent) {
-    const file = event.files[0];
-    this.recargar = false;
-    if (file && this.form.valid) {
+  onUpload() {
+    if (this.validarBoton()) {
       if (this.form.value.fechaVencimiento < this.form.value.fechaPublicacion) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La fecha de vencimiento no puede ser menor a la fecha de publicación.' });
       } else {
-        const uniqueFileName = `${new Date().getTime()}_${file.name}`;
+        //const uniqueFileName = `${new Date().getTime()}_${file.name}`;
         let contrato: Contratacion = this.form.value;
         let formData = new FormData();
-        formData.append('file', file, uniqueFileName);
+        //formData.append('file', file, uniqueFileName);
         this.contratacionService.addContratacionDocument(formData).subscribe((info: any) => {
-          contrato.url = info["url"];
+          //contrato.url = info["url"];
+          contrato.urlFormato=info["url"];
+
           contrato.estado = 'Activo';
           contrato.codigoSenamhi = this.acceso.codigoSenamhi;
           contrato.codigoSede = this.acceso.codigoSede;
@@ -130,11 +105,15 @@ export class NuevaContratacionComponent {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe completar todos los campos.' });
     }
   }
-  salir() {
-    if (this.recargar) {
-      this.router.navigate(['/dashboard/contrataciones']);
-    } else {
-      this.recargar = true;
-    }
+  onSelectFormato(event: FileUploadHandlerEvent) {
+    this.fileFormato = event.files[0];
+    this.mensajeFormato = ` ${this.fileFormato.name} - ${this.fileFormato.size / 1024} KB`;
+  }
+  onSelectConvocatoria(event: FileUploadHandlerEvent) {
+    this.fileConvocatoria = event.files[0];
+    this.mensajeConvocatoria = ` ${this.fileConvocatoria.name} - ${this.fileConvocatoria.size / 1024} KB`;
+  }
+  validarBoton(){
+    return this.form.valid && this.fileFormato && this.fileConvocatoria;
   }
 }

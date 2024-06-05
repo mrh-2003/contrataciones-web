@@ -24,13 +24,13 @@
                         <label for="formato">Formato Requerido: </label>
                         <p-dropdown formControlName="formato" [options]="formatos"
                             placeholder="Seleccione una plantilla requerida" optionLabel="descripcion"
-                            [style]="{'width':'100%'}">
+                            [style]="{'width':'100%', 'max-width': '250px'}">
                         </p-dropdown>
                         @if (form.get('formato')?.hasError('required')&& form.get('formato')?.touched) {
                         <small class="error-message">Ingrese el formato.</small>
                         }
                     </div>
-                    <p-button (click)="descargarFormato()" label="Descargar"></p-button>
+                    <p-button [style]="{'margin-left':'15px'}" (click)="descargarFormato()" label="Descargar"></p-button>
                 </div>
 
 
@@ -51,86 +51,25 @@
                     <small class="error-message">Ingrese la fecha de vencimiento.</small>
                     }
                 </div>
-                <div class="box">
-                    <div class="box-dni">
-                        <div class="flex flex-column">
-                            <label for="dniRuc">DNI/RUC Contacto</label>
-                            <input pInputText id="dniRuc" formControlName="dniRuc" required maxlength="11"
-                                minlength="8" />
-                            @if (form.get('dniRuc')?.hasError('required') && form.get('dniRuc')?.touched) {
-                            <small class="error-message">Ingrese su DNI o RUC.</small>
-                            }
-                            @if ((form.get('dniRuc')?.hasError('maxlength') ||
-                            form.get('dniRuc')?.hasError('minlength')) &&
-                            form.get('dniRuc')?.touched) {
-                            <small class="error-message">El DNI o RUC debe tener 8 o 11 numeros.</small>
-                            }
-                        </div>
-                        <p-button (click)="buscarUsuario()" [disabled]="form.get('dniRuc')?.invalid"
-                            label="Buscar"></p-button>
-                    </div>
-
-                    <div class="flex flex-column">
-                        <label>Nombre</label>
-                        <input formControlName="nombre" pInputText [readOnly]="readonly" />
-                        @if (form.get('nombre')?.hasError('required') && form.get('nombre')?.touched && !readonly) {
-                        <small class="error-message">Ingrese el nombre.</small>
-                        }
-                    </div>
-                    <div class="flex flex-column">
-                        <label>Apellido Paterno</label>
-                        <input formControlName="apellidoPaterno" pInputText [readOnly]="readonly" />
-                        @if (form.get('apellidoPaterno')?.hasError('required') && form.get('apellidoPaterno')?.touched&&
-                        !readonly) {
-                        <small class="error-message">Ingrese el apellido paterno.</small>
-                        }
-                    </div>
-                    <div class="flex flex-column">
-                        <label>Apellido Materno</label>
-                        <input formControlName="apellidoMaterno" pInputText [readOnly]="readonly" />
-                        @if (form.get('apellidoMaterno')?.hasError('required') && form.get('apellidoMaterno')?.touched&&
-                        !readonly) {
-                        <small class="error-message">Ingrese el apellido materno.</small>
-                        }
-                    </div>
-
-                    <div class="flex flex-column">
-                        <label>Dirección</label>
-                        <input formControlName="direccion" pInputText [readOnly]="readonly" />
-                        @if (form.get('direccion')?.hasError('required') && form.get('direccion')?.touched&& !readonly)
-                        {
-                        <small class="error-message">Ingrese la dirección.</small>
-                        }
-                    </div>
-
-                    <div class="flex flex-column">
-                        <label>Telefono</label>
-                        <input formControlName="telefono" pInputText [readOnly]="readonly" type="tel" />
-                        @if (form.get('telefono')?.hasError('required') && form.get('telefono')?.touched && !readonly) {
-                        <small class="error-message">Ingrese un teléfono valido.</small>
-                        }
-                    </div>
-
-                    <div class="flex flex-column">
-                        <label>Correo</label>
-                        <input formControlName="correo" pInputText [readOnly]="readonly" type="email"/>
-                        @if ((form.get('correo')?.hasError('required') || form.get('correo')?.hasError('email')) &&
-                        form.get('correo')?.touched&& !readonly) {
-                        <small class="error-message">Ingrese un correo valido.</small>
-                        }
-                    </div>
-                </div>
-                <p-card header="Subir documento">
-                    <p-fileUpload chooseLabel="Subir" uploadLabel="Guardar" cancelLabel="Cancelar" name="demo[]" customUpload="true"
+                <div class="flex flex-column center">
+                    <p-fileUpload [auto]="true" chooseLabel="Cargar Formato" mode="basic" name="demo[]"
+                        customUpload="true" (uploadHandler)="onSelectFormato($event)"
                         accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                        maxFileSize="10000000" (uploadHandler)="onUpload($event)" (onClear)="salir()">
-                        <ng-template class="width" let-file pTemplate="file">
-
-                            <div class="width-input">Archivo cargado: {{file.name}} - {{file.size / 1024}} KB</div>
-
-                        </ng-template>
-                    </p-fileUpload>
-                </p-card>
+                        maxFileSize="10000000" [style]="{'width':'100%'}"></p-fileUpload>
+                </div>
+                <div class="flex flex-column mensaje">
+                    <div> <strong>Archivo cargado:</strong> {{mensajeFormato}}</div>
+                </div>
+                <div class="flex flex-column center">
+                    <p-fileUpload [auto]="true" chooseLabel="Cargar Anexo" mode="basic" name="demo[]"
+                        customUpload="true" (uploadHandler)="onSelectConvocatoria($event)"
+                        accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        maxFileSize="10000000" [style]="{'width':'100%'}"></p-fileUpload>
+                </div>
+                <div class="flex flex-column mensaje">
+                    <div> <strong>Archivo cargado:</strong> {{mensajeConvocatoria}}</div>
+                </div>
+                <p-button label="Guardar" (onClick)="onUpload()" [disabled]="!validarBoton()"></p-button>
             </form>
         </p-card>
     </div>
