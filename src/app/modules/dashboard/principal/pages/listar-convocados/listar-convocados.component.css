@@ -4,29 +4,17 @@
     border: 2px solid #e5e7eb;
     overflow: hidden;
 }
-.flex{
+
+.flex {
     display: flex;
     justify-content: space-between;
 }
 
-.space{
+.space {
     margin-right: 20px;
 }
 
-.align-buttons{
-    display: flex;
-}
-
-.align-buttons button {
-    display: flex;
-    margin-left: 5px;
-}
-
-.titulo{
+.titulo {
     margin: 0;
     padding-top: 9px;
-}
-
-.centrar {
-    text-align: center;
 }

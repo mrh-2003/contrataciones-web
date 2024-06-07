@@ -4,14 +4,14 @@
         <p-table #dt [value]="formatos" dataKey="codigo" [tableStyle]="{'min-width': '60rem'}" [paginator]="true"
             [rows]="10" [showCurrentPageReport]="true" [globalFilterFields]="['descripcion', 'nombre']"
             [tableStyle]="{ 'min-width': '50rem' }"
-            currentPageReportTemplate="Mostrando del {first} al {last} de un total de {totalRecords} registros."
-            >
+            currentPageReportTemplate="Mostrando del {first} al {last} de un total de {totalRecords} registros.">
             <ng-template pTemplate="caption">
                 <div class="flex">
                     <div>
                         <button routerLink="nuevo" pButton label="Nuevo" class="p-button-outlined"
                             icon="pi pi-plus"></button>
                     </div>
+                    <h2 class="titulo">Lista de formatos</h2>
                     <div>
                         <button pButton label="Limpiar" class="p-button-outlined" icon="pi pi-filter-slash"
                             (click)="clear(dt, textInput)"></button>
@@ -26,10 +26,9 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="codigo" style="width:10%">Codigo <p-sortIcon field="codigo"></p-sortIcon></th>
-                    <th pSortableColumn="descripcion" style="width:40%">Descripción <p-sortIcon
-                            field="descripcion"></p-sortIcon></th>
-                    <th pSortableColumn="nombre" style="width:40%">Nombre <p-sortIcon field="nombre"></p-sortIcon>
+                    <th pSortableColumn="codigo">Codigo <p-sortIcon field="codigo"></p-sortIcon></th>
+                    <th pSortableColumn="descripcion">Descripción <p-sortIcon field="descripcion"></p-sortIcon></th>
+                    <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon>
                     </th>
                     <th></th>
                 </tr>
@@ -39,7 +38,7 @@
                     <td>{{rowIndex + 1}}</td>
                     <td>{{formato.descripcion}}</td>
                     <td>{{formato.nombre}}</td>
-                    <td class="align-buttons">
+                    <td class="align-buttons centrar">
                         <button routerLink="editar/{{formato.codigo}}" pButton pRipple icon="pi pi-file-edit"
                             class="p-button-rounded p-button-warning"></button>
                         <button (click)="verPdf(formato.url)" pButton pRipple icon="pi pi-eye"
@@ -49,17 +48,15 @@
             </ng-template>
         </p-table>
     </div>
-    
-    
-    
-    <p-dialog header="Vista previa" [modal]="true" [(visible)]="visible" [style]="{width: '90vw'}" [maximizable]="true">
-    
+
+
+
+    <p-dialog header="Previsualización" [modal]="true" [(visible)]="visible" [style]="{width: '90vw'}"
+        [maximizable]="true">
         @if (this.visible) {
-        <ngx-extended-pdf-viewer 
-        [height]="'100vh'"
-        [textLayer]="true" [src]="pdfUrl">
+        <ngx-extended-pdf-viewer [height]="'100vh'" [textLayer]="true" [src]="pdfUrl">
         </ngx-extended-pdf-viewer>
         }
-    
+
     </p-dialog>
 </div>

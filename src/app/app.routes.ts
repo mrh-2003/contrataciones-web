@@ -9,19 +9,23 @@ import { ListarContratacionesComponent } from './modules/dashboard/principal/pag
 import { NuevaContratacionComponent } from './modules/dashboard/principal/pages/nueva-contratacion/nueva-contratacion.component';
 import { authGuard } from './modules/auth/guards/auth.guard';
 import { adminGuard } from './modules/dashboard/mantenimiento/guards/admin.guard';
+import { ListarConvocadosComponent } from './modules/dashboard/principal/pages/listar-convocados/listar-convocados.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
-    {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] , children: [
-        {path: 'usuarios', component: ListarUsuariosComponent, canActivate: [adminGuard]},
-        {path: 'usuarios/nuevo', component: NuevoUsuarioComponent, canActivate: [adminGuard]},
-        {path: 'formatos', component: ListarFormatoComponent, canActivate: [adminGuard]},
-        {path: 'formatos/nuevo', component: NuevoFormatoComponent, canActivate: [adminGuard]},
-        {path: 'formatos/editar/:id', component: NuevoFormatoComponent, canActivate: [adminGuard]},
-        {path: 'contrataciones', component: ListarContratacionesComponent},
-        {path: 'contrataciones/nuevo', component: NuevaContratacionComponent}    
-    ]},
+    {
+        path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], children: [
+            { path: 'usuarios', component: ListarUsuariosComponent, canActivate: [adminGuard] },
+            { path: 'usuarios/nuevo', component: NuevoUsuarioComponent, canActivate: [adminGuard] },
+            { path: 'formatos', component: ListarFormatoComponent, canActivate: [adminGuard] },
+            { path: 'formatos/nuevo', component: NuevoFormatoComponent, canActivate: [adminGuard] },
+            { path: 'formatos/editar/:id', component: NuevoFormatoComponent, canActivate: [adminGuard] },
+            { path: 'contrataciones', component: ListarContratacionesComponent },
+            { path: 'contrataciones/nuevo', component: NuevaContratacionComponent },
+            { path: 'convocados/:id', component: ListarConvocadosComponent },
+        ]
+    },
     { path: '**', redirectTo: 'login', pathMatch: 'full' }
 
 ];

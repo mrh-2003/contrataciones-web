@@ -1,12 +1,11 @@
-export class Trabajador{
-    codigo: number = 0;
-    dni: string = "";
-    nombre: string = "";
-    apellidoPaterno: string = "";
-    apellidoMaterno: string = "";
-    codigoSenamhi : string = "";
-    codigoSede : string = "";
-    sede: string = "";
-    codigoCargo: string = "";
-    cargo: string = "";
+export class Trabajador {
+    dni: string = '';
+    apePaterno: string = '';
+    apeMaterno: string = '';
+    nombre: string = '';
+    codigoEmpleado: string = '';
+    codigoCargo: string = '';
+    cargo: string = '';
+    codigoZonal: string = '';
+    zonal: string = '';
 }

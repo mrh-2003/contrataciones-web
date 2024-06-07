@@ -4,6 +4,13 @@
         <p-card header="Registrar nueva contratación">
             <form [formGroup]="form">
                 <div class="flex flex-column">
+                    <label>N° Expediente</label>
+                    <input formControlName="numeroExpediente" pInputText />
+                    @if (form.get('numeroExpediente')?.hasError('required') && form.get('numeroExpediente')?.touched) {
+                    <small class="error-message">Ingrese el número de expediente.</small>
+                    }
+                </div>
+                <div class="flex flex-column">
                     <label for="descripcion">Descripción: </label>
                     <textarea formControlName="descripcion" id="descripcion" required rows="2" pInputTextarea
                         [autoResize]="true"></textarea>

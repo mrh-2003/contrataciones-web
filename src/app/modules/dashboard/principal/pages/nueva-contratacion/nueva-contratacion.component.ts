@@ -54,6 +54,7 @@ export class NuevaContratacionComponent {
     this.formatoService.getFormatos().subscribe((formatos) => { this.formatos = formatos; });
 
     this.form = this.formBuilder.group({
+      numeroExpediente: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
       tipoServicio: ['', [Validators.required]],
       formato: ['', [Validators.required]],
@@ -80,23 +81,28 @@ export class NuevaContratacionComponent {
       if (this.form.value.fechaVencimiento < this.form.value.fechaPublicacion) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La fecha de vencimiento no puede ser menor a la fecha de publicación.' });
       } else {
-        //const uniqueFileName = `${new Date().getTime()}_${file.name}`;
+        let uniqueFileName = `${new Date().getTime()}_${this.fileFormato.name}`;
         let contrato: Contratacion = this.form.value;
         let formData = new FormData();
-        //formData.append('file', file, uniqueFileName);
-        this.contratacionService.addContratacionDocument(formData).subscribe((info: any) => {
-          //contrato.url = info["url"];
-          contrato.urlFormato=info["url"];
-
-          contrato.estado = 'Activo';
-          contrato.codigoSenamhi = this.acceso.codigoSenamhi;
-          contrato.codigoSede = this.acceso.codigoSede;
-          contrato.sede = this.acceso.sede;
-          contrato.codigoAcceso = this.acceso.codigo;
-          this.contratacionService.createContratacion(contrato).subscribe(() => {
-            let mensaje = { severity: 'success', summary: 'Éxito', detail: 'Contratación creada correctamente.' };
-            localStorage.setItem('mensaje', JSON.stringify(mensaje));
-            this.router.navigate(['/dashboard/contrataciones']);
+        formData.append('file', this.fileFormato, uniqueFileName);
+        this.contratacionService.addContratacionDocument(formData).subscribe((infoFormato: any) => {
+          contrato.urlFormato = infoFormato["url"];
+          uniqueFileName = `${new Date().getTime()}_${this.fileConvocatoria.name}`;
+          formData = new FormData();
+          formData.append('file', this.fileConvocatoria, uniqueFileName);
+          this.contratacionService.addContratacionDocument(formData).subscribe((infoConvocatoria: any) => {
+            contrato.urlConvocatoria = infoConvocatoria["url"];
+            contrato.urlResultado = '';
+            contrato.estado = 'Activo';
+            contrato.codigoSenamhi = this.acceso.codigoSenamhi;
+            contrato.codigoSede = this.acceso.codigoSede;
+            contrato.sede = this.acceso.sede;
+            contrato.codigoAcceso = this.acceso.codigo;
+            this.contratacionService.createContratacion(contrato).subscribe(() => {
+              let mensaje = { severity: 'success', summary: 'Éxito', detail: 'Contratación creada correctamente.' };
+              localStorage.setItem('mensaje', JSON.stringify(mensaje));
+              this.router.navigate(['/dashboard/contrataciones']);
+            });
           });
         });
       }
@@ -113,7 +119,7 @@ export class NuevaContratacionComponent {
     this.fileConvocatoria = event.files[0];
     this.mensajeConvocatoria = ` ${this.fileConvocatoria.name} - ${this.fileConvocatoria.size / 1024} KB`;
   }
-  validarBoton(){
+  validarBoton() {
     return this.form.valid && this.fileFormato && this.fileConvocatoria;
   }
 }

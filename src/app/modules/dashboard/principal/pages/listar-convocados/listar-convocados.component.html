@@ -1,0 +1,125 @@
+<p-toast></p-toast>
+<div class="container">
+    <div class="card">
+        <p-table #dt [value]="convocados" dataKey="id" [rows]="10" [showCurrentPageReport]="true" [loading]="loading"
+            [paginator]="true"
+            currentPageReportTemplate="Mostrando del {first} al {last} de un total de {totalRecords} registros."
+            [globalFilterFields]="['dniRuc','nombre' , 'apellidoPaterno', 'apellidoMaterno', 'direccion', 'correo', 'telefono', 'estado']">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <h2 class="titulo">Lista de convocados</h2>
+                    <div class="align-right">
+                        <button pButton label="Limpiar" class="p-button-outlined" icon="pi pi-filter-slash"
+                            (click)="clear(dt, textInput)"></button>
+                        <span class="space"></span>
+                        <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText #textInput type="text"
+                                (input)=" dt.filterGlobal(textInput.value, 'contains' )" placeholder="Filtrar" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        <div>
+                            N°
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            DNI
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Nombre
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Apellido Paterno
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Apellido Materno
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Dirección
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Correo
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Telefono
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Estado
+                        </div>
+                    </th>
+                    <th>
+                        <div>
+                            Anexo
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-convocado let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{rowIndex + 1}}</td>
+                    <td>
+                        {{ convocado.dniRuc }}
+                    </td>
+                    <td>
+                        {{ convocado.nombre }}
+                    </td>
+                    <td>
+                        {{ convocado.apellidoPaterno }}
+                    </td>
+                    <td>
+                        {{ convocado.apellidoMaterno }}
+                    </td>
+                    <td>
+                        {{ convocado.direccion }}
+                    </td>
+                    <td>
+                        {{ convocado.correo }}
+                    </td>
+                    <td>
+                        {{ convocado.telefono }}
+                    </td>
+                    <td>
+                        <p-tag [value]="convocado.estado" [severity]="getSeverity(convocado.estado)"></p-tag>
+                    </td>
+                    <td>
+                        <button (click)="verPdf(convocado.urlPDF)" pButton pRipple icon="pi pi-eye"
+                            class="p-button-rounded p-button-info"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">No hay convocadoes.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>
+
+<p-dialog header="Previsualización" [modal]="true" [(visible)]="visible" [style]="{width: '90vw'}" [maximizable]="true">
+    @if (visible) {
+        <ngx-extended-pdf-viewer [textLayer]="true" [height]="'100vh'" [src]="pdfUrl">
+        </ngx-extended-pdf-viewer>
+    }
+</p-dialog>

@@ -11,6 +11,7 @@
                         <button routerLink="nuevo" pButton label="Nuevo" class="p-button-outlined"
                             icon="pi pi-plus"></button>
                     </div>
+                    <h2 class="titulo">Lista de usuarios</h2>
                     <div>
                         <button pButton label="Limpiar" class="p-button-outlined" icon="pi pi-filter-slash"
                             (click)="clear(dt1, textInput)"></button>
@@ -25,14 +26,14 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="codigo" style="width:10%">Codigo <p-sortIcon field="codigo"></p-sortIcon></th>
-                    <th pSortableColumn="nombres" style="width:30%">Nombre <p-sortIcon field="nombres"></p-sortIcon>
+                    <th pSortableColumn="codigo">Codigo <p-sortIcon field="codigo"></p-sortIcon></th>
+                    <th pSortableColumn="nombres">Nombre <p-sortIcon field="nombres"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="cargo" style="width:20%">Cargo <p-sortIcon field="cargo"></p-sortIcon>
+                    <th pSortableColumn="cargo">Cargo <p-sortIcon field="cargo"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="usuario" style="width:20%">Usuario <p-sortIcon field="usuario"></p-sortIcon>
+                    <th pSortableColumn="usuario">Usuario <p-sortIcon field="usuario"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="estado" style="width:20%">Estado <p-sortIcon field="estado"></p-sortIcon></th>
+                    <th class="centrar" pSortableColumn="estado">Estado <p-sortIcon field="estado"></p-sortIcon></th>
                     <th></th>
                 </tr>
             </ng-template>
@@ -42,11 +43,11 @@
                     <td>{{usuario.nombres}}</td>
                     <td>{{usuario.cargo}}</td>
                     <td>{{usuario.usuario}}</td>
-                    <td>
+                    <td class="centrar">
                         <p-tag [value]="usuario.estado? 'Activo': 'Inactivo'"
                             [severity]="getSeverity(usuario.estado)"></p-tag>
                     </td>
-                    <td class="align-buttons">
+                    <td class="align-buttons centrar">
                         <button (click)="updateEstado(usuario, true)" pButton pRipple icon="pi pi-check"
                             class="p-button-rounded p-button-success"></button>
                         <button (click)="updateEstado(usuario, false)" pButton pRipple icon="pi pi-times"

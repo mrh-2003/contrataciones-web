@@ -11,6 +11,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Trabajador } from '../../../models/trabajador';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { Respuesta } from '../../../models/respuesta';
 
 @Component({
   selector: 'app-nuevo-usuario',
@@ -51,22 +52,28 @@ export class NuevoUsuarioComponent {
   }
 
   buscarUsuario() {
-    this.trabajadorService.getTrabajadorByDni(this.form.value.dni).subscribe((usuario) => {
-      if (usuario) {
-        this.form.patchValue({
-          dni: usuario.dni,
-          nombre: usuario.nombre,
-          apellidoPaterno: usuario.apellidoPaterno,
-          apellidoMaterno: usuario.apellidoMaterno,
-          cargo: usuario.cargo,
-          codigoSenamhi: usuario.codigoSenamhi,
-          codigoCargo: usuario.codigoCargo,
-          codigoSede: usuario.codigoSede,
-          sede: usuario.sede
-        });
-      } else {
+    this.trabajadorService.getTrabajadorByDni(this.form.value.dni).subscribe({
+      next: (resp: Respuesta) => {
+        let usuario = resp.listPersonal[0];
+        if (usuario) {
+          this.form.patchValue({
+            dni: usuario.dni,
+            nombre: usuario.nombre,
+            apellidoPaterno: usuario.apePaterno,
+            apellidoMaterno: usuario.apeMaterno,
+            cargo: usuario.cargo,
+            codigoSenamhi: usuario.codigoEmpleado,
+            codigoCargo: usuario.codigoCargo,
+            codigoSede: usuario.codigoZonal,
+            sede: usuario.zonal
+          });
+        } else {
+          this.readonly = false;
+          this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Usuario no encontrado, complete los datos.' });
+        }
+      },
+      error: (error) => {
         this.readonly = false;
-        this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Usuario no encontrado, complete los datos.' });
       }
     });
   }
@@ -90,21 +97,20 @@ export class NuevoUsuarioComponent {
 
     if (!this.readonly) {
       let trabajador: Trabajador = {
-        codigo: 0,
         dni: this.form.value.dni,
         nombre: this.form.value.nombre,
-        apellidoPaterno: this.form.value.apellidoPaterno,
-        apellidoMaterno: this.form.value.apellidoMaterno,
+        apePaterno: this.form.value.apellidoPaterno,
+        apeMaterno: this.form.value.apellidoMaterno,
         cargo: this.form.value.cargo,
-        codigoSenamhi: '000',
+        codigoEmpleado: '000',
         codigoCargo: '000',
-        codigoSede: '001',
-        sede: 'Lima'
+        codigoZonal: '001',
+        zonal: 'Lima'
       };
-      acceso.codigoSenamhi = trabajador.codigoSenamhi;
+      acceso.codigoSenamhi = trabajador.codigoEmpleado;
       acceso.codigoCargo = trabajador.codigoCargo;
-      acceso.codigoSede = trabajador.codigoSede;
-      acceso.sede = trabajador.sede;
+      acceso.codigoSede = trabajador.codigoZonal;
+      acceso.sede = trabajador.zonal;
       this.trabajadorService.addTrabajador(trabajador).subscribe(() => { });
     }
 

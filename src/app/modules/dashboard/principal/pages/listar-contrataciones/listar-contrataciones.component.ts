@@ -14,13 +14,15 @@ import { CalendarModule } from 'primeng/calendar';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-listar-contrataciones',
   standalone: true,
   imports: [CommonModule, FormsModule, TableModule, ButtonModule, CalendarModule,
     DialogModule, InputTextModule, TagModule, DropdownModule, RouterModule,
-    NgxExtendedPdfViewerModule, ToastModule],
+    NgxExtendedPdfViewerModule, ToastModule, InputTextareaModule, FileUploadModule],
   templateUrl: './listar-contrataciones.component.html',
   styleUrl: './listar-contrataciones.component.css',
   providers: [MessageService]
@@ -31,8 +33,10 @@ export class ListarContratacionesComponent {
   tipoServicios!: any[];
   visible = false;
   isPDF = false;
+  siResultado = false;
   estados !: any[];
   loading: boolean = true;
+  file !: File;
   fechaPubli = new Date().toISOString().split('T')[0];
   fechaVenc = new Date().toISOString().split('T')[0];
   descripcion = '';
@@ -76,16 +80,17 @@ export class ListarContratacionesComponent {
   }
 
   noVencido(contratacion: Contratacion) {
+    this.contra = contratacion;
     return contratacion.fechaVencimiento >= new Date().toISOString().split('T')[0];
   }
 
   openDialog(contratacion: Contratacion) {
     if (contratacion.fechaVencimiento >= new Date().toISOString().split('T')[0]) {
       this.visible = true;
-      this.contra = contratacion;
       this.fechaPubli = contratacion.fechaPublicacion;
       this.fechaVenc = contratacion.fechaVencimiento;
-    }
+      this.descripcion = contratacion.descripcion;
+    } 
   }
   updateContratacion() {
     if (this.fechaVenc < this.fechaPubli) {
@@ -100,7 +105,29 @@ export class ListarContratacionesComponent {
       });
     }
   }
-
+  updateResultado(){
+    if(this.file){
+      const uniqueFileName = `${new Date().getTime()}_${this.file.name}`;
+      const formData = new FormData();
+      formData.append('file', this.file, uniqueFileName);
+      this.contratacionService.addContratacionDocument(formData).subscribe((infoResultado: any) => {
+        this.contra.urlResultado = infoResultado["url"];
+        this.contra.estado = 'Finalizado';
+        this.contratacionService.updateContratacion(this.contra).subscribe(() => {
+          this.siResultado = false;
+          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Resultado subido correctamente.' });
+        });
+      });
+    }else{
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe seleccionar un archivo.' });
+    }
+  }
+  subirResultados(){
+    this.siResultado = true;
+  }
+  onSubmit(event: FileUploadHandlerEvent){
+    this.file = event.files[0];
+  }
   verPdf(url: string) {
     if (url.toLowerCase().endsWith('.pdf')) {
       this.isPDF = true;
