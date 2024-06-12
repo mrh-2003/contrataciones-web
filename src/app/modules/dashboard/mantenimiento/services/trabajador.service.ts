@@ -9,10 +9,9 @@ import { Respuesta } from '../models/respuesta';
 })
 export class TrabajadorService {
   path = environment.apiUrl + '/senamhi/trabajadores';
-  pathSenamhi = environment.apiSenamhi;
   constructor(private http: HttpClient) { }
   getTrabajadorByDni(dni: string) {
-    return this.http.post<Respuesta>(this.pathSenamhi, { dni: dni, nombre: ''});
+    return this.http.post<Respuesta>(this.path +"/consulta", { dni: dni, nombre: ''});
   }
   addTrabajador(trabajador: Trabajador) {
     return this.http.post<Trabajador>(this.path, trabajador);
