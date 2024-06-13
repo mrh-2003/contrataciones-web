@@ -3,7 +3,7 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AccesoService } from '../../../services/acceso.service';
 import { Acceso } from '../../../models/acceso';
 import { TrabajadorService } from '../../../services/trabajador.service';
@@ -11,12 +11,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Trabajador } from '../../../models/trabajador';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { Respuesta } from '../../../models/respuesta';
 
 @Component({
   selector: 'app-nuevo-usuario',
   standalone: true,
-  imports: [CardModule, ButtonModule, InputTextModule, ReactiveFormsModule, FormsModule, DropdownModule, ToastModule],
+  imports: [CardModule, ButtonModule,RouterModule, InputTextModule, ReactiveFormsModule, FormsModule, DropdownModule, ToastModule],
   templateUrl: './nuevo-usuario.component.html',
   styleUrl: './nuevo-usuario.component.css',
   providers: [MessageService]
@@ -53,8 +52,7 @@ export class NuevoUsuarioComponent {
 
   buscarUsuario() {
     this.trabajadorService.getTrabajadorByDni(this.form.value.dni).subscribe({
-      next: (resp: Respuesta) => {
-        let usuario = resp.listPersonal[0];
+      next: (usuario: Trabajador) => {
         if (usuario) {
           this.form.patchValue({
             dni: usuario.dni,
@@ -74,6 +72,7 @@ export class NuevoUsuarioComponent {
       },
       error: (error) => {
         this.readonly = false;
+        this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Usuario no encontrado, complete los datos.' });
       }
     });
   }

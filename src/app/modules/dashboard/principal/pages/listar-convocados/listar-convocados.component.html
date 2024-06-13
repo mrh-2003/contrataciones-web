@@ -2,12 +2,14 @@
 <div class="container">
     <div class="card">
         <p-table #dt [value]="convocados" dataKey="id" [rows]="10" [showCurrentPageReport]="true" [loading]="loading"
-            [paginator]="true"
-            currentPageReportTemplate="Mostrando del {first} al {last} de un total de {totalRecords} registros."
-            [globalFilterFields]="['dniRuc','nombre' , 'apellidoPaterno', 'apellidoMaterno', 'direccion', 'correo', 'telefono', 'estado']">
-            <ng-template pTemplate="caption">
-                <div class="flex">
-                    <h2 class="titulo">Lista de convocados</h2>
+        [paginator]="true"
+        currentPageReportTemplate="Mostrando del {first} al {last} de un total de {totalRecords} registros."
+        [globalFilterFields]="['dniRuc','nombre' , 'apellidoPaterno', 'apellidoMaterno', 'direccion', 'correo', 'telefono', 'estado']">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                    <button pButton label="Salir" class="p-button-outlined" icon="pi pi-arrow-circle-left" routerLink="/dashboard/contrataciones"></button>
+                    <span class="space"></span>
+                    <h2 class="titulo">Lista de postulantes de la convocatoria {{contratacion.descripcion}}</h2>
                     <div class="align-right">
                         <button pButton label="Limpiar" class="p-button-outlined" icon="pi pi-filter-slash"
                             (click)="clear(dt, textInput)"></button>
@@ -119,7 +121,7 @@
 
 <p-dialog header="Previsualización" [modal]="true" [(visible)]="visible" [style]="{width: '90vw'}" [maximizable]="true">
     @if (visible) {
-        <ngx-extended-pdf-viewer [textLayer]="true" [height]="'100vh'" [src]="pdfUrl">
-        </ngx-extended-pdf-viewer>
+    <ngx-extended-pdf-viewer [textLayer]="true" [height]="'100vh'" [src]="pdfUrl">
+    </ngx-extended-pdf-viewer>
     }
 </p-dialog>

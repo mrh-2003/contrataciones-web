@@ -14,7 +14,7 @@ import { ContratacionService } from '../../services/contratacion.service';
 import { Formato } from '../../../mantenimiento/models/formato';
 import { FormatoService } from '../../../mantenimiento/services/formato.service';
 import { Contratacion } from '../../models/contratacion';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AccesoService } from '../../../mantenimiento/services/acceso.service';
 import { Acceso } from '../../../mantenimiento/models/acceso';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -24,7 +24,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   standalone: true,
   imports: [CommonModule, CardModule, ButtonModule,
     InputTextareaModule, InputTextModule, ReactiveFormsModule,
-    DropdownModule, FormsModule,
+    DropdownModule, FormsModule, RouterModule,
     FileUploadModule, ToastModule, CalendarModule, ProgressSpinnerModule],
   templateUrl: './nueva-contratacion.component.html',
   styleUrl: './nueva-contratacion.component.css',
@@ -54,7 +54,7 @@ export class NuevaContratacionComponent {
     this.formatoService.getFormatos().subscribe((formatos) => { this.formatos = formatos; });
 
     this.form = this.formBuilder.group({
-      numeroExpediente: ['', [Validators.required]],
+      numeroExpediente: [''/* , [Validators.required] */],
       descripcion: ['', [Validators.required]],
       tipoServicio: ['', [Validators.required]],
       formato: ['', [Validators.required]],
@@ -92,7 +92,7 @@ export class NuevaContratacionComponent {
           formData.append('file', this.fileConvocatoria, uniqueFileName);
           this.contratacionService.addContratacionDocument(formData).subscribe((infoConvocatoria: any) => {
             contrato.urlConvocatoria = infoConvocatoria["url"];
-            contrato.urlResultado = '';
+            //contrato.urlResultado = '';
             contrato.estado = 'Activo';
             contrato.codigoSenamhi = this.acceso.codigoSenamhi;
             contrato.codigoSede = this.acceso.codigoSede;

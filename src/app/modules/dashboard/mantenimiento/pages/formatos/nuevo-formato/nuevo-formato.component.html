@@ -7,15 +7,16 @@
                 [autoResize]="true"></textarea>
         </div>
         <div class="flex flex-column ">
-            <p-fileUpload [auto]="true" chooseLabel="Seleccionar Archivo" mode="basic" name="demo[]" customUpload="true"
+            <p-fileUpload [auto]="true" chooseLabel="Cargar Anexo" name="demo[]" customUpload="true" mode="basic"
                 (uploadHandler)="onSelect($event)"
                 accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                maxFileSize="10000000"></p-fileUpload>
+                maxFileSize="10000000">
+            </p-fileUpload>
         </div>
-        <div class="flex flex-column mensaje">
+        <div class="flex flex-column">
             <div> <strong>Archivo cargado:</strong> {{mensaje}}</div>
         </div>
-        <p-button (click)="onUpload()" label="{{accion}}"></p-button>
-
+        <p-button [disabled]="descripcion==''" (click)="onUpload()" label="{{accion}}"></p-button>
+        <p-button [style]="{'margin-left': '10px'}" label="Salir" routerLink="/dashboard/formatos"></p-button>
     </p-card>
 </div>

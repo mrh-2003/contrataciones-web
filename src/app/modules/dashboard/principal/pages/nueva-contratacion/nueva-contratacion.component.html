@@ -6,9 +6,9 @@
                 <div class="flex flex-column">
                     <label>N° Expediente</label>
                     <input formControlName="numeroExpediente" pInputText />
-                    @if (form.get('numeroExpediente')?.hasError('required') && form.get('numeroExpediente')?.touched) {
+                    <!-- @if (form.get('numeroExpediente')?.hasError('required') && form.get('numeroExpediente')?.touched) {
                     <small class="error-message">Ingrese el número de expediente.</small>
-                    }
+                    } -->
                 </div>
                 <div class="flex flex-column">
                     <label for="descripcion">Descripción: </label>
@@ -37,7 +37,8 @@
                         <small class="error-message">Ingrese el formato.</small>
                         }
                     </div>
-                    <p-button [style]="{'margin-left':'15px'}" (click)="descargarFormato()" label="Descargar"></p-button>
+                    <p-button [style]="{'margin-left':'15px'}" (click)="descargarFormato()"
+                        label="Descargar"></p-button>
                 </div>
 
 
@@ -59,24 +60,29 @@
                     }
                 </div>
                 <div class="flex flex-column center">
-                    <p-fileUpload [auto]="true" chooseLabel="Cargar Formato" mode="basic" name="demo[]"
-                        customUpload="true" (uploadHandler)="onSelectFormato($event)"
+                    <p-fileUpload [auto]="true" chooseLabel="Cargar Formato" name="demo[]" customUpload="true"
+                        (uploadHandler)="onSelectFormato($event)"
                         accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                        maxFileSize="10000000" [style]="{'width':'100%'}"></p-fileUpload>
-                </div>
-                <div class="flex flex-column mensaje">
-                    <div> <strong>Archivo cargado:</strong> {{mensajeFormato}}</div>
+                        maxFileSize="10000000" [style]="{'width':'100%'}">
+                        <ng-template let-file pTemplate="file">
+                            <div> <strong>Archivo cargado:</strong> {{mensajeFormato}}</div>
+                        </ng-template>
+                    </p-fileUpload>
                 </div>
                 <div class="flex flex-column center">
-                    <p-fileUpload [auto]="true" chooseLabel="Cargar Anexo" mode="basic" name="demo[]"
-                        customUpload="true" (uploadHandler)="onSelectConvocatoria($event)"
+                    <p-fileUpload [auto]="true" chooseLabel="Cargar Anexo" name="demo[]" customUpload="true"
+                        (uploadHandler)="onSelectConvocatoria($event)"
                         accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                        maxFileSize="10000000" [style]="{'width':'100%'}"></p-fileUpload>
-                </div>
-                <div class="flex flex-column mensaje">
-                    <div> <strong>Archivo cargado:</strong> {{mensajeConvocatoria}}</div>
+                        maxFileSize="10000000" [style]="{'width':'100%'}">
+                        <ng-template let-file pTemplate="file">
+                            <div> <strong>Archivo cargado:</strong> {{mensajeConvocatoria}}</div>
+                        </ng-template>
+                    </p-fileUpload>
                 </div>
                 <p-button label="Guardar" (onClick)="onUpload()" [disabled]="!validarBoton()"></p-button>
+                <p-button [style]="{'margin-left': '10px'}" label="Salir"
+                    routerLink="/dashboard/contrataciones"></p-button>
+
             </form>
         </p-card>
     </div>

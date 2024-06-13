@@ -42,6 +42,7 @@ export class ListarContratacionesComponent {
   descripcion = '';
   contra = new Contratacion();
   today = new Date().toISOString().split('T')[0];
+  mensaje = '';
   constructor(private contratacionService: ContratacionService, private messageService: MessageService) { }
 
   ngOnInit() {
@@ -80,11 +81,11 @@ export class ListarContratacionesComponent {
   }
 
   noVencido(contratacion: Contratacion) {
-    this.contra = contratacion;
     return contratacion.fechaVencimiento >= new Date().toISOString().split('T')[0];
   }
 
   openDialog(contratacion: Contratacion) {
+    this.contra = contratacion;
     if (contratacion.fechaVencimiento >= new Date().toISOString().split('T')[0]) {
       this.visible = true;
       this.fechaPubli = contratacion.fechaPublicacion;
@@ -122,11 +123,13 @@ export class ListarContratacionesComponent {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe seleccionar un archivo.' });
     }
   }
-  subirResultados(){
+  subirResultados(contratacion: Contratacion){
+    this.contra = contratacion;
     this.siResultado = true;
   }
   onSubmit(event: FileUploadHandlerEvent){
     this.file = event.files[0];
+    this.mensaje = ` ${this.file.name} - ${this.file.size / 1024} KB`;
   }
   verPdf(url: string) {
     if (url.toLowerCase().endsWith('.pdf')) {

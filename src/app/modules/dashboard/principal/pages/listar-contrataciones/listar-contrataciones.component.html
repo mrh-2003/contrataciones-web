@@ -149,11 +149,11 @@
                         <button (click)="openDialog(contratacion)" pButton pRipple icon="pi pi-file-edit"
                             class="p-button-rounded p-button-warning"></button>
                         }@else {
-                        @if (contratacion.urlResultado == '' || contratacion.urlResultado == null) {
-                        <button (click)="subirResultados()" pButton pRipple icon="pi pi-upload"
+                        @if (contratacion.urlResultado != '' && contratacion.urlResultado != null) {
+                        <button (click)="verPdf(contratacion.urlResultado)" pButton pRipple icon="pi pi-eye"
                             class="p-button-rounded p-button-info"></button>
                         } @else {
-                        <button (click)="verPdf(contratacion.urlResultado)" pButton pRipple icon="pi pi-eye"
+                        <button (click)="subirResultados(contratacion)" pButton pRipple icon="pi pi-upload"
                             class="p-button-rounded p-button-info"></button>
                         }
                         }
@@ -208,8 +208,13 @@
     [style]="{width: '45w', minWidth: '400px', maxWidth: '450px'}">
     <div class="centrar-file">
         <p-fileUpload [auto]="true" chooseLabel="Cargar" name="demo[]" customUpload="true"
-            (uploadHandler)="onSubmit($event)" accept=".pdf" maxFileSize="10000000"
-            [style]="{'width':'100%', 'margin-bottom': '20px'}"></p-fileUpload>
+            (uploadHandler)="onSubmit($event)" accept=".pdf" maxFileSize="10000000" 
+            [style]="{'width':'100%', 'margin-bottom': '20px'}">
+            <ng-template let-file pTemplate="file">
+                <div> <strong>Archivo cargado:</strong> {{mensaje}}</div>
+            </ng-template>
+        </p-fileUpload>
+
         <p-button (onClick)="updateResultado()" [disabled]="!file" label="Guardar"></p-button>
     </div>
 </p-dialog>

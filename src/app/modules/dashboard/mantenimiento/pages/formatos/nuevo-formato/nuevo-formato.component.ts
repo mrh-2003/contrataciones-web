@@ -8,12 +8,12 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FormatoService } from '../../../services/formato.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-nuevo-formato',
   standalone: true,
-  imports: [CardModule, ButtonModule, InputTextareaModule, InputTextModule, ReactiveFormsModule, FormsModule, FileUploadModule, ToastModule],
+  imports: [CardModule, ButtonModule, InputTextareaModule, InputTextModule, ReactiveFormsModule, FormsModule, FileUploadModule, ToastModule, RouterModule],
   templateUrl: './nuevo-formato.component.html',
   styleUrl: './nuevo-formato.component.css',
   providers: [MessageService]
