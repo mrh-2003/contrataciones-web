@@ -26,7 +26,15 @@
                     <small class="error-message">Ingrese el tipo de servicio.</small>
                     }
                 </div>
-                <div class="formato">
+                <div class="flex flex-column">
+                    <label for="sede">Sede: </label>
+                    <p-dropdown formControlName="sede" [options]="tipoSede" [style]="{'width':'100%'}"
+                        placeholder="Seleccione la sede"></p-dropdown>
+                    @if (form.get('sede')?.hasError('required')&& form.get('sede')?.touched) {
+                    <small class="error-message">Ingrese la sede.</small>
+                    }
+                </div>
+<!--                 <div class="formato">
                     <div class="flex flex-column">
                         <label for="formato">Formato Requerido: </label>
                         <p-dropdown formControlName="formato" [options]="formatos"
@@ -39,7 +47,7 @@
                     </div>
                     <p-button [style]="{'margin-left':'15px'}" (click)="descargarFormato()"
                         label="Descargar"></p-button>
-                </div>
+                </div> -->
 
 
                 <div class="flex flex-column">
@@ -60,9 +68,9 @@
                     }
                 </div>
                 <div class="flex flex-column center">
-                    <p-fileUpload [auto]="true" chooseLabel="Cargar Formato" name="demo[]" customUpload="true"
+                    <p-fileUpload [auto]="true" chooseLabel="Cargar TDR / ET" name="demo[]" customUpload="true"
                         (uploadHandler)="onSelectFormato($event)"
-                        accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        accept=".pdf"
                         maxFileSize="10000000" [style]="{'width':'100%'}">
                         <ng-template let-file pTemplate="file">
                             <div> <strong>Archivo cargado:</strong> {{mensajeFormato}}</div>
@@ -70,9 +78,9 @@
                     </p-fileUpload>
                 </div>
                 <div class="flex flex-column center">
-                    <p-fileUpload [auto]="true" chooseLabel="Cargar Anexo" name="demo[]" customUpload="true"
+                    <p-fileUpload [auto]="true" chooseLabel="Cargar Anexos" name="demo[]" customUpload="true"
                         (uploadHandler)="onSelectConvocatoria($event)"
-                        accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        accept=".pdf"
                         maxFileSize="10000000" [style]="{'width':'100%'}">
                         <ng-template let-file pTemplate="file">
                             <div> <strong>Archivo cargado:</strong> {{mensajeConvocatoria}}</div>

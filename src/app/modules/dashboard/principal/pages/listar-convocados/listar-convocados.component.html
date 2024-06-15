@@ -6,19 +6,22 @@
         currentPageReportTemplate="Mostrando del {first} al {last} de un total de {totalRecords} registros."
         [globalFilterFields]="['dniRuc','nombre' , 'apellidoPaterno', 'apellidoMaterno', 'direccion', 'correo', 'telefono', 'estado']">
         <ng-template pTemplate="caption">
+            <h2 class="titulo">{{title}}</h2>
             <div class="flex">
                     <button pButton label="Salir" class="p-button-outlined" icon="pi pi-arrow-circle-left" routerLink="/dashboard/contrataciones"></button>
-                    <span class="space"></span>
-                    <h2 class="titulo">Lista de postulantes de la convocatoria {{contratacion.descripcion}}</h2>
                     <div class="align-right">
                         <button pButton label="Limpiar" class="p-button-outlined" icon="pi pi-filter-slash"
-                            (click)="clear(dt, textInput)"></button>
+                        (click)="clear(dt, textInput)"></button>
                         <span class="space"></span>
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
                             <input pInputText #textInput type="text"
-                                (input)=" dt.filterGlobal(textInput.value, 'contains' )" placeholder="Filtrar" />
+                            (input)=" dt.filterGlobal(textInput.value, 'contains' )" placeholder="Filtrar" />
                         </span>
+                        <span class="space"></span>
+                        <button pButton (click)="exportExcel()" class="p-button-outlined" style="color: green;" icon="pi pi-file-excel"></button>
+                        <span class="space"></span>
+                        <button pButton (click)="exportPdf()" class="p-button-outlined" style="color: red;" icon="pi pi-file-pdf"></button>
                     </div>
                 </div>
             </ng-template>
@@ -71,7 +74,7 @@
                     </th>
                     <th>
                         <div>
-                            Anexo
+                            Propuesta
                         </div>
                     </th>
                 </tr>

@@ -29,6 +29,7 @@ import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 })
 export class ListarContratacionesComponent {
   contrataciones!: any[];
+  sedes!: any[];
   pdfUrl = ''
   tipoServicios!: any[];
   visible = false;
@@ -59,6 +60,10 @@ export class ListarContratacionesComponent {
     this.estados = [
       { label: 'Activo', value: 'Activo' },
       { label: 'Inactivo', value: 'Inactivo' }
+    ];
+    this.sedes = [
+      { label: 'Central', value: 'Central' },
+      { label: 'Dirección Zonal', value: 'Dirección Zonal' }
     ];
   }
 

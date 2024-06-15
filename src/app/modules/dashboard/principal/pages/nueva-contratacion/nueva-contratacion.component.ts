@@ -32,7 +32,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 })
 export class NuevaContratacionComponent {
   tipoServicios: any[] = [];
-  formatos: Formato[] = [];
+  tipoSede: any[] = [];
+  //formatos: Formato[] = [];
   form!: FormGroup;
   acceso !: Acceso;
   today = new Date();
@@ -43,7 +44,7 @@ export class NuevaContratacionComponent {
   constructor(
     private router: Router,
     private contratacionService: ContratacionService,
-    private formatoService: FormatoService,
+    //private formatoService: FormatoService,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     private accesoService: AccesoService
@@ -51,13 +52,14 @@ export class NuevaContratacionComponent {
 
   ngOnInit() {
     this.accesoService.getAccesoActual().subscribe((acceso) => { this.acceso = acceso; });
-    this.formatoService.getFormatos().subscribe((formatos) => { this.formatos = formatos; });
+    //this.formatoService.getFormatos().subscribe((formatos) => { this.formatos = formatos; });
 
     this.form = this.formBuilder.group({
       numeroExpediente: [''/* , [Validators.required] */],
       descripcion: ['', [Validators.required]],
       tipoServicio: ['', [Validators.required]],
-      formato: ['', [Validators.required]],
+      sede: ['', [Validators.required]],
+      //formato: ['', [Validators.required]],
       fechaPublicacion: ['', [Validators.required]],
       fechaVencimiento: ['', [Validators.required]],
     });
@@ -66,15 +68,20 @@ export class NuevaContratacionComponent {
       'Bien',
       'Servicio'
     ];
+
+    this.tipoSede = [
+      'Central',
+      'Dirección Zonal',
+    ];
   }
 
-  descargarFormato() {
+/*   descargarFormato() {
     const formatoSeleccionado = this.form.value.formato;
     if (formatoSeleccionado) {
       const url = formatoSeleccionado.url;
       window.open(url, '_blank');
     }
-  }
+  } */
 
   onUpload() {
     if (this.validarBoton()) {
@@ -95,8 +102,8 @@ export class NuevaContratacionComponent {
             //contrato.urlResultado = '';
             contrato.estado = 'Activo';
             contrato.codigoSenamhi = this.acceso.codigoSenamhi;
-            contrato.codigoSede = this.acceso.codigoSede;
-            contrato.sede = this.acceso.sede;
+            contrato.codigoSede = '000';
+            //contrato.sede = this.acceso.sede;
             contrato.codigoAcceso = this.acceso.codigo;
             this.contratacionService.createContratacion(contrato).subscribe(() => {
               let mensaje = { severity: 'success', summary: 'Éxito', detail: 'Contratación creada correctamente.' };
