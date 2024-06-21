@@ -14,8 +14,6 @@ import { Contratacion } from '../../models/contratacion';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Convocado } from '../../models/convocado';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 import { ExcelExportService } from '../../services/excel-export.service';
 
 @Component({

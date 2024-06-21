@@ -1,6 +1,6 @@
 // src/app/services/excel-export.service.ts
 import { Injectable } from '@angular/core';
-import * as ExcelJS from 'exceljs'; 
+import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 
 @Injectable({
@@ -16,10 +16,11 @@ export class ExcelExportService {
     // Añadir encabezado del reporte
     worksheet.addRow([]); // Fila en blanco
     worksheet.getCell('B2').value = fileName;
-    worksheet.getCell('B2').font ={
+    worksheet.getCell('B2').font = {
       bold: true,
       size: 12
     };
+    worksheet.mergeCells('B2:G2'); 
     // Añadir los encabezados en la fila 2, columna B
     const headerRow = worksheet.addRow([null, ...headers]);
     headerRow.eachCell((cell) => {
@@ -72,10 +73,10 @@ export class ExcelExportService {
     });
   }
 
-    private saveAsExcelFile(buffer: any, fileName: string): void {
-      const data: Blob = new Blob([buffer], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      });
-      saveAs(data, `${fileName}.xlsx`);
-    }
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    saveAs(data, `${fileName}.xlsx`);
+  }
 }
