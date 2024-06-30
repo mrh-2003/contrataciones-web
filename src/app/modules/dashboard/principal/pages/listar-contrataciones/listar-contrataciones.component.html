@@ -33,23 +33,24 @@
                         <div class="flex align-items-center center">
                             N° Expediente
                             <p-columnFilter matchMode="contains" type="text" field="numeroExpediente" display="menu"
-                                [showMatchModes]="false" [showOperator]="false"
-                                [showAddButton]="false"></p-columnFilter>
+                                [showMatchModes]="false" [showOperator]="false" [showApplyButton]="false"
+                                [showClearButton]="false" [showAddButton]="false"></p-columnFilter>
                         </div>
                     </th>
                     <th>
                         <div class="flex align-items-center">
                             Descripción
                             <p-columnFilter matchMode="contains" type="text" field="descripcion" display="menu"
-                                [showMatchModes]="false" [showOperator]="false"
-                                [showAddButton]="false"></p-columnFilter>
+                                [showMatchModes]="false" [showOperator]="false" [showApplyButton]="false"
+                                [showClearButton]="false" [showAddButton]="false"></p-columnFilter>
                         </div>
                     </th>
                     <th>
                         <div class="flex align-items-center">
                             Tipo de servicio
                             <p-columnFilter field="tipoServicio" matchMode="equals" display="menu"
-                                [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                                [showApplyButton]="false" [showMatchModes]="false" [showOperator]="false"
+                                [showAddButton]="false" [showClearButton]="false">
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                                     <p-dropdown [ngModel]="value" [options]="tipoServicios"
                                         (onChange)="filter($event.value)" placeholder="Ninguno">
@@ -61,11 +62,12 @@
                     <th>
                         <div class="flex align-items-center">
                             Sede
-                            <p-columnFilter field="sede" matchMode="equals" display="menu"
-                                [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                            <p-columnFilter field="sede" matchMode="equals" display="menu" [showMatchModes]="false"
+                                [showOperator]="false" [showAddButton]="false" [showApplyButton]="false"
+                                [showClearButton]="false">
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                    <p-dropdown [ngModel]="value" [options]="sedes"
-                                        (onChange)="filter($event.value)" placeholder="Ninguno">
+                                    <p-dropdown [ngModel]="value" [options]="sedes" (onChange)="filter($event.value)"
+                                        placeholder="Ninguno">
                                     </p-dropdown>
                                 </ng-template>
                             </p-columnFilter>
@@ -85,7 +87,8 @@
                         <div class="flex align-items-center">
                             Estado
                             <p-columnFilter field="estado" matchMode="equals" display="menu" [showMatchModes]="false"
-                                [showOperator]="false" [showAddButton]="false">
+                                [showOperator]="false" [showAddButton]="false" [showApplyButton]="false"
+                                [showClearButton]="false">
                                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                                     <p-dropdown [ngModel]="value" [options]="estados" (onChange)="filter($event.value)"
                                         placeholder="Ninguno">
@@ -175,7 +178,6 @@
             </ng-template>
         </p-table>
     </div>
-
 </div>
 
 <p-dialog header="Previsualización" [modal]="true" [(visible)]="isPDF" [style]="{width: '90vw'}" [maximizable]="true">
@@ -185,22 +187,25 @@
     }
 </p-dialog>
 
-<p-dialog header="Actualizar Datos" [modal]="true" [(visible)]="visible" [style]="{width: '250px'}">
+<p-dialog header="Actualizar Datos" [modal]="true" [(visible)]="visible" [style]="{width: '350px'}" >
     <div class="centrar">
         <div>
-            <div>
-                <label for="fechaPubli"> Fecha de Publicación: </label>
-                <input [min]="today" [(ngModel)]="fechaPubli" name="fechaPubli" type="date" class="disign-input">
-
-            </div>
-            <div>
-                <label for="fechaVenc"> Fecha de Vencimiento: </label>
-                <input [min]="fechaPubli" [(ngModel)]="fechaVenc" name="fechaVenc" type="date" class="disign-input">
-            </div>
-            <div>
+            <div class="input-section">
                 <label for="descripcion"> Descripción: </label>
                 <textarea [(ngModel)]="descripcion" name="descripcion" rows="3" type="text" class="disign-input">
-                </textarea>
+                                        </textarea>
+            </div>
+            <div class="input-section">
+                <label for="fechaPubli"> Fecha de Publicación: </label>
+                <!-- <input [min]="today" [(ngModel)]="fechaPubli" name="fechaPubli" type="date" class="disign-input"> -->
+                <p-calendar [style]="{'width':'100%'}" [(ngModel)]="fechaPubli" name="fechaPubli" [showIcon]="true"
+                    inputId="fechaPubli" [minDate]="today"></p-calendar>
+            </div>
+            <div class="input-section-end">
+                <label for="fechaVenc"> Fecha de Vencimiento: </label>
+                <!-- <input [min]="fechaPubli" [(ngModel)]="fechaVenc" name="fechaVenc" type="date" class="disign-input"> -->
+                 <p-calendar [style]="{'width':'100%'}" [(ngModel)]="fechaVenc" name="fechaVenc" [showIcon]="true" inputId="fechaVenc"
+                    [minDate]="fechaPubli"></p-calendar> 
             </div>
         </div>
         <button pButton label="Actualizar" class="p-button-outlined" icon="pi pi-pencil"

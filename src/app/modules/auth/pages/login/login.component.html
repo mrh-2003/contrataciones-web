@@ -4,7 +4,7 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="flex flex-column gap-2">
                 <label for="usuario">Usuario</label>
-                <input pInputText id="usuario" formControlName="usuario" required maxlength="20" minlength="6" />
+                <input appUppercase pInputText id="usuario" formControlName="usuario" required maxlength="20" minlength="6" />
                 @if (form.get('usuario')?.hasError('required') && form.get('usuario')?.touched) {
                 <small class="error-message">Ingrese su usuario.</small>
                 }
@@ -14,7 +14,7 @@
                 }
             </div>
             <div class="flex flex-column gap-2">
-                <label for="contrasenia">Contraseña</label>
+                <label for="contrasenia">Contraseña</label> 
                 <input pInputText id="contrasenia" formControlName="contrasenia" type="password" required maxlength="20" minlength="6" />
                 @if (form.get('contrasenia')?.hasError('required')&& form.get('contrasenia')?.touched) {
                 <small class="error-message">Ingrese su contraseña.</small>

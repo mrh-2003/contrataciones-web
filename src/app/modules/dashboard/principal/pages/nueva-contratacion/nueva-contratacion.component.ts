@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { MessageService } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
@@ -41,13 +41,15 @@ export class NuevaContratacionComponent {
   fileConvocatoria!: File;
   mensajeFormato!: string;
   mensajeConvocatoria!: string;
+  es!: any;
   constructor(
     private router: Router,
     private contratacionService: ContratacionService,
     //private formatoService: FormatoService,
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private accesoService: AccesoService
+    private accesoService: AccesoService,
+    private primengConfig: PrimeNGConfig
   ) { }
 
   ngOnInit() {
@@ -63,7 +65,21 @@ export class NuevaContratacionComponent {
       fechaPublicacion: ['', [Validators.required]],
       fechaVencimiento: ['', [Validators.required]],
     });
-
+    this.primengConfig.setTranslation({
+      accept: 'Aceptar',
+      reject: 'Cancelar',
+      firstDayOfWeek: 1,
+      dayNames: ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+      dayNamesShort: ['D','L', 'Ma', 'Mi', 'J', 'V', 'S'],
+      dayNamesMin: ['D','L', 'Ma', 'Mi', 'J', 'V', 'S'],
+      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+        'Noviembre', 'Diciembre'],
+      monthNamesShort: ['E', 'F', 'Mz', 'Ab', 'My', 'Jn', 'Jl', 'Ag', 'S', 'O', 'N', 'D'],
+      today: 'Hoy',
+      clear: 'Reiniciar',
+      dateFormat: 'dd/mm/yy',
+      weekHeader: 'Semana'
+    });
     this.tipoServicios = [
       'Bien',
       'Servicio'

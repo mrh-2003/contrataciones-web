@@ -11,11 +11,12 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Trabajador } from '../../../models/trabajador';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { UppercaseDirective } from '../../../../directives/uppercase.directive';
 
 @Component({
   selector: 'app-nuevo-usuario',
   standalone: true,
-  imports: [CardModule, ButtonModule,RouterModule, InputTextModule, ReactiveFormsModule, FormsModule, DropdownModule, ToastModule],
+  imports: [CardModule, ButtonModule, RouterModule, InputTextModule, ReactiveFormsModule, FormsModule, DropdownModule, ToastModule, UppercaseDirective],
   templateUrl: './nuevo-usuario.component.html',
   styleUrl: './nuevo-usuario.component.css',
   providers: [MessageService]
@@ -76,7 +77,14 @@ export class NuevoUsuarioComponent {
       }
     });
   }
+  validateNumberInput(event: KeyboardEvent) {
+    const charCode = event.charCode;
 
+    // Permitir solo números (0-9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
   onSubmit() {
     let acceso: Acceso = {
       codigo: 0,
@@ -113,10 +121,15 @@ export class NuevoUsuarioComponent {
       this.trabajadorService.addTrabajador(trabajador).subscribe(() => { });
     }
 
-    this.accesoService.createAcceso(acceso).subscribe(() => {
-      let mensaje = { severity: 'success', summary: 'Éxito', detail: 'Usuario creado correctamente.' }
-      localStorage.setItem('mensaje', JSON.stringify(mensaje));
-      this.router.navigate(['/dashboard/usuarios']);
+    this.accesoService.createAcceso(acceso).subscribe({
+      next: () => {
+        let mensaje = { severity: 'success', summary: 'Éxito', detail: 'Usuario creado correctamente.' }
+        localStorage.setItem('mensaje', JSON.stringify(mensaje));
+        this.router.navigate(['/dashboard/usuarios']);
+      },
+      error: (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Usuario ya registrado.' });
+      }
     });
   }
 

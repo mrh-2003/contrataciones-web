@@ -5,8 +5,9 @@
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div class="flex flex-column">
                     <label for="dni">DNI</label>
-                    <input pInputText id="dni" formControlName="dni" required maxlength="8" minlength="8" />
-                    @if (form.get('dni')?.hasError('required') && form.get('dni')?.touched) {
+                    <input appUppercase pInputText id="dni" formControlName="dni" required maxlength="8" minlength="8"
+                        (keypress)="validateNumberInput($event)" />
+                    @if (form.get('dni')?.hasError('required') && form.get('dni')?.touched ) {
                     <small class="error-message">Ingrese su DNI.</small>
                     }
                     @if ((form.get('dni')?.hasError('maxlength') || form.get('dni')?.hasError('minlength')) &&
@@ -19,14 +20,14 @@
                 <div class="box">
                     <div class="flex flex-column">
                         <label>Nombre</label>
-                        <input formControlName="nombre" pInputText [readonly]="readonly" />
+                        <input appUppercase formControlName="nombre" pInputText [readonly]="readonly" />
                         @if (form.get('nombre')?.hasError('required') && form.get('nombre')?.touched && !readonly) {
                         <small class="error-message">Ingrese el nombre.</small>
                         }
                     </div>
                     <div class="flex flex-column">
                         <label>Apellido Paterno</label>
-                        <input formControlName="apellidoPaterno" pInputText [readonly]="readonly" />
+                        <input appUppercase formControlName="apellidoPaterno" pInputText [readonly]="readonly" />
                         @if (form.get('apellidoPaterno')?.hasError('required') && form.get('apellidoPaterno')?.touched&&
                         !readonly) {
                         <small class="error-message">Ingrese el apellido paterno.</small>
@@ -34,7 +35,7 @@
                     </div>
                     <div class="flex flex-column">
                         <label>Apellido Materno</label>
-                        <input formControlName="apellidoMaterno" pInputText [readonly]="readonly" />
+                        <input appUppercase formControlName="apellidoMaterno" pInputText [readonly]="readonly" />
                         @if (form.get('apellidoMaterno')?.hasError('required') && form.get('apellidoMaterno')?.touched&&
                         !readonly) {
                         <small class="error-message">Ingrese el apellido materno.</small>
@@ -43,7 +44,7 @@
 
                     <div class="flex flex-column">
                         <label>Cargo</label>
-                        <input formControlName="cargo" pInputText [readonly]="readonly" />
+                        <input appUppercase formControlName="cargo" pInputText [readonly]="readonly" />
                         @if (form.get('cargo')?.hasError('required') && form.get('cargo')?.touched&& !readonly) {
                         <small class="error-message">Ingrese el cargo.</small>
                         }
@@ -52,7 +53,8 @@
 
                 <div class="flex flex-column">
                     <label for="usuario">Usuario</label>
-                    <input pInputText id="usuario" formControlName="usuario" required maxlength="20" minlength="6" />
+                    <input appUppercase pInputText id="usuario" formControlName="usuario" required maxlength="20"
+                        minlength="6" />
                     @if (form.get('usuario')?.hasError('required') && form.get('usuario')?.touched) {
                     <small class="error-message">Ingrese su usuario.</small>
                     }
@@ -63,8 +65,8 @@
                 </div>
                 <div class="flex flex-column">
                     <label for="contrasenia">Contraseña</label>
-                    <input pInputText id="contrasenia" formControlName="contrasenia" required maxlength="20"
-                        minlength="6" type="password" />
+                    <input pInputText id="contrasenia" formControlName="contrasenia" required
+                        maxlength="20" minlength="6" type="password" />
                     @if (form.get('contrasenia')?.hasError('required')&& form.get('contrasenia')?.touched) {
                     <small class="error-message">Ingrese su contraseña.</small>
                     }

@@ -4,6 +4,7 @@
     border: 2px solid #e5e7eb;
     overflow: hidden;
 }
+
 .flex {
     display: flex;
     justify-content: space-between;
@@ -19,9 +20,11 @@
     align-items: center;
     flex-direction: column;
 }
+
 .centrar-file {
     text-align: center;
 }
+
 .disign-input {
     padding: 5px;
     border: 1px solid #ccc;
@@ -37,6 +40,24 @@
     padding-top: 9px;
 }
 
-.center{
+.center {
     text-align: center;
+}
+
+:host ::ng-deep .p-datepicker {
+    transform: scale(0.6);
+    left: -18% !important;
+}
+
+:host ::ng-deep .p-dialog-content{
+    overflow-y: visible !important;
+}
+
+.input-section{
+    margin-bottom: 10px;
+}
+
+.input-section-end{
+    margin-top: 30px;
+    margin-bottom: 20px;
 }

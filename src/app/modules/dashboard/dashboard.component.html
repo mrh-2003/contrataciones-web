@@ -3,7 +3,10 @@
         <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
     </ng-template> -->
     <ng-template pTemplate="end">
-        <p >Aplicativo de Registro y Visualizacion de Contrataciones de Bienes y Servicios</p>
+        <div class="flex">
+            <p>Aplicativo de Registro y Visualizacion de Contrataciones de Bienes y Servicios</p>
+            <p-splitButton label="{{showRole}}" [model]="itemsUser"/>
+        </div>
     </ng-template>
 </p-menubar>
 

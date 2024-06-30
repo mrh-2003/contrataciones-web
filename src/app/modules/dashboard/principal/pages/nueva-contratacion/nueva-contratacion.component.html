@@ -34,7 +34,7 @@
                     <small class="error-message">Ingrese la sede.</small>
                     }
                 </div>
-<!--                 <div class="formato">
+                <!--                 <div class="formato">
                     <div class="flex flex-column">
                         <label for="formato">Formato Requerido: </label>
                         <p-dropdown formControlName="formato" [options]="formatos"
@@ -69,9 +69,8 @@
                 </div>
                 <div class="flex flex-column center">
                     <p-fileUpload [auto]="true" chooseLabel="Cargar TDR / ET" name="demo[]" customUpload="true"
-                        (uploadHandler)="onSelectFormato($event)"
-                        accept=".pdf"
-                        maxFileSize="10000000" [style]="{'width':'100%'}">
+                        (uploadHandler)="onSelectFormato($event)" accept=".pdf" maxFileSize="10000000"
+                        [style]="{'width':'100%'}">
                         <ng-template let-file pTemplate="file">
                             <div> <strong>Archivo cargado:</strong> {{mensajeFormato}}</div>
                         </ng-template>
@@ -79,9 +78,8 @@
                 </div>
                 <div class="flex flex-column center">
                     <p-fileUpload [auto]="true" chooseLabel="Cargar Anexos" name="demo[]" customUpload="true"
-                        (uploadHandler)="onSelectConvocatoria($event)"
-                        accept=".pdf"
-                        maxFileSize="10000000" [style]="{'width':'100%'}">
+                        (uploadHandler)="onSelectConvocatoria($event)" accept=".pdf" maxFileSize="10000000"
+                        [style]="{'width':'100%'}">
                         <ng-template let-file pTemplate="file">
                             <div> <strong>Archivo cargado:</strong> {{mensajeConvocatoria}}</div>
                         </ng-template>

@@ -2,19 +2,24 @@ import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
+import { SplitButtonModule } from 'primeng/splitbutton';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MenubarModule, RouterOutlet],
+  imports: [MenubarModule, RouterOutlet, SplitButtonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
   items!: MenuItem[];
+  itemsUser!: MenuItem[];
   rol = localStorage.getItem('role');
+  showRole = ''
+  username = localStorage.getItem('username');
   constructor(private router : Router) { }
 
   ngOnInit() {
+    this.showRole = this.rol == 'ROLE_ADMINISTRADOR' ? 'Administrador' : 'Personal Logistico';
     this.items = [
       {
         label: 'Principal',
@@ -26,6 +31,13 @@ export class DashboardComponent {
             routerLink: 'contrataciones'
           }
         ]
+      }
+    ];
+
+    this.itemsUser = [
+      {
+        label: this.username || '',
+        icon: 'pi pi-user'
       },
       {
         label: 'Salir',

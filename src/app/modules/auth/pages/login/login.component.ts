@@ -7,10 +7,11 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { UppercaseDirective } from '../../../dashboard/directives/uppercase.directive';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CardModule, ReactiveFormsModule, FormsModule, InputTextModule, ButtonModule, ToastModule],
+  imports: [CardModule, ReactiveFormsModule, FormsModule, InputTextModule, ButtonModule, ToastModule, UppercaseDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   providers: [MessageService]
@@ -38,6 +39,7 @@ export class LoginComponent {
         next: (response: any) => {
           localStorage.setItem('token', response['token']);
           localStorage.setItem('role', response['role']);
+          localStorage.setItem('username', this.form.value.usuario);
           if(response['role'] == 'ROLE_ADMINISTRADOR') {
             this.router.navigate(['/dashboard/formatos']);
           }else{

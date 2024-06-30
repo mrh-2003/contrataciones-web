@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { ContratacionService } from '../../services/contratacion.service';
 import { ButtonModule } from 'primeng/button';
@@ -12,11 +12,12 @@ import { RouterModule } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import { MessageService } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadHandlerEvent, FileUploadModule } from 'primeng/fileupload';
-
+import flatpickr from 'flatpickr';
+import { Spanish } from 'flatpickr/dist/l10n/es.js';
 @Component({
   selector: 'app-listar-contrataciones',
   standalone: true,
@@ -38,13 +39,13 @@ export class ListarContratacionesComponent {
   estados !: any[];
   loading: boolean = true;
   file !: File;
-  fechaPubli = new Date().toISOString().split('T')[0];
-  fechaVenc = new Date().toISOString().split('T')[0];
+  fechaPubli = new Date();
+  fechaVenc = new Date();
   descripcion = '';
   contra = new Contratacion();
-  today = new Date().toISOString().split('T')[0];
+  today = new Date();
   mensaje = '';
-  constructor(private contratacionService: ContratacionService, private messageService: MessageService) { }
+  constructor(private contratacionService: ContratacionService, private messageService: MessageService, private primengConfig: PrimeNGConfig) { }
 
   ngOnInit() {
     this.loading = true;
@@ -52,14 +53,28 @@ export class ListarContratacionesComponent {
       this.contrataciones = contrataciones;
       this.loading = false;
     });
-
+    this.primengConfig.setTranslation({
+      accept: 'Aceptar',
+      reject: 'Cancelar',
+      firstDayOfWeek: 1,
+      dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+      dayNamesShort: ['D', 'L', 'Ma', 'Mi', 'J', 'V', 'S'],
+      dayNamesMin: ['D', 'L', 'Ma', 'Mi', 'J', 'V', 'S'],
+      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+        'Noviembre', 'Diciembre'],
+      monthNamesShort: ['E', 'F', 'Mz', 'Ab', 'My', 'Jn', 'Jl', 'Ag', 'S', 'O', 'N', 'D'],
+      today: 'Hoy',
+      clear: 'Reiniciar',
+      dateFormat: 'dd/mm/yy',
+      weekHeader: 'Semana'
+    });
     this.tipoServicios = [
       { label: 'Bien', value: 'Bien' },
       { label: 'Servicio', value: 'Servicio' }
     ];
     this.estados = [
       { label: 'Activo', value: 'Activo' },
-      { label: 'Inactivo', value: 'Inactivo' }
+      { label: 'Finalizado', value: 'Finalizado' }
     ];
     this.sedes = [
       { label: 'Central', value: 'Central' },
@@ -90,11 +105,14 @@ export class ListarContratacionesComponent {
   }
 
   openDialog(contratacion: Contratacion) {
+    
     this.contra = contratacion;
     if (contratacion.fechaVencimiento >= new Date().toISOString().split('T')[0]) {
       this.visible = true;
-      this.fechaPubli = contratacion.fechaPublicacion;
-      this.fechaVenc = contratacion.fechaVencimiento;
+      let publi = contratacion.fechaPublicacion.split('-');
+      let venc = contratacion.fechaVencimiento.split('-');
+      this.fechaPubli = new Date(`${publi[1]}/${publi[2]}/${publi[0]}`);
+      this.fechaVenc = new Date(`${venc[1]}/${venc[2]}/${venc[0]}`);
       this.descripcion = contratacion.descripcion;
     } 
   }
@@ -102,8 +120,8 @@ export class ListarContratacionesComponent {
     if (this.fechaVenc < this.fechaPubli) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'La fecha de vencimiento no puede ser menor a la fecha de publicación.' });
     } else {
-      this.contra.fechaPublicacion = this.fechaPubli;
-      this.contra.fechaVencimiento = this.fechaVenc;
+      this.contra.fechaPublicacion = this.fechaPubli.toISOString().split('T')[0];
+      this.contra.fechaVencimiento = this.fechaVenc.toISOString().split('T')[0];
       this.contra.descripcion = this.descripcion;
       this.contratacionService.updateContratacion(this.contra).subscribe(() => {
         this.visible = false;
